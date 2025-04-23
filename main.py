@@ -1,41 +1,34 @@
+from stats import count_words, count_characters
+import sys
+
 def main():
-    book_path = "books/frankenstein.txt"
+    if len(sys.argv) <= 1:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    
+    book_path = sys.argv[1]
     text = get_book_text(book_path)
     number_of_words = count_words(text)
     number_of_characters = count_characters(text)
     
-    # Generate Report
-    print(f"--- Begin report of {book_path} ---")
-    print(f"{number_of_words} words found in the document")
-    print()
+    # # Generate Report
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {book_path}")
+    print("----------- Word Count ----------")
+    print(f"Found {number_of_words} total words")
+    print("--------- Character Count -------")
     generate_report(text)
-    print("--- End report ---")
+    print("============= END ===============")
 
 def get_book_text(path):
     with open(path) as f:
         return f.read()
-    
-def count_words(string):
-    number = len(string.split())
-    return number
-
-def count_characters(string):
-    characters = {}
-    lowered_string = string.lower()
-    
-    for c in lowered_string:
-        if c in characters:
-            characters[c] += 1
-        else:
-            characters[c] = 1
-    
-    return characters
 
 def generate_report(text):
     char_dict = count_characters(text)
 
     for c in char_dict:
         if c.isalpha():
-            print(f"The '{c}' character was found {char_dict[c]} times")
+            print(f"{c}: {char_dict[c]}")
 
 main()
